@@ -1,0 +1,943 @@
+<!---MADE BY RUDRA PANDEY FROM SUNBEAM SCHOOL-->
+<!--ALL RIGHTS RESERVED!!!-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Wanderly — Human Travel Experiences</title>
+<style>
+  :root{
+    --bg:#f6fbff; --card:#ffffff; --gray:#6b7280; --main:#0ea5a4; --main-2:#0369a1;
+    --success:#16a34a; --danger:#ef4444; --glass: rgba(255,255,255,0.7);
+  }
+  *{
+    box-sizing:border-box
+  }
+  body{
+    font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial;
+    margin:0;
+    background:linear-gradient(180deg,var(--bg),#f0f7fb); 
+    color:#0f172a;
+  }
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 28px;
+    background:#aff1e3;
+    position:sticky;
+    top:0;
+    z-index:30
+  }
+  .brand{display:flex;
+    gap:12px;
+    align-items:center
+  }
+  .logo{
+    width:46px;
+    height:46px;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--main),var(--main-2));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-weight:700;
+    box-shadow:0 6px 18px rgba(3,105,161,0.12)
+  }
+  nav{
+    display:flex;
+    gap:12px;
+    align-items:center
+  }
+  .nav-buttons {
+  display: flex;
+  gap: 20px;
+}
+.nav-buttons button {
+  background: transparent;
+  border: 2px solid transparent;
+  color: white;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+  .nav-buttons button.active, .nav-buttons button:hover{
+    background:var(--card);
+    box-shadow:0 6px 18px rgba(3,105,161,0.06);
+    color:var(--main-2)
+  }
+  .container{
+    max-width:1160px;
+    margin:28px auto;
+    padding:0 18px
+  }
+  .hero{
+    display:grid;
+    grid-template-columns:1fr 420px;
+    gap:26px;
+    align-items:center;
+    margin-bottom:22px
+  }
+  .hero-card{
+    background:var(--card);
+    padding:28px;
+    border-radius:12px;
+    box-shadow:0 12px 30px rgba(2,6,23,0.06)
+  }
+  .hero h1{
+    margin:0 0 8px;
+    font-size:26px;
+    line-height:1.05
+  }
+  .hero p{
+    margin:0;
+    color:var(--gray)
+  }
+  .search{
+    display:flex;
+    gap:8px;
+    margin-top:14px
+  }
+  .search input{
+    flex:1;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px solid #e6eef6;
+    background:transparent
+  }
+  .search button{
+    background:var(--main);
+    color:white;
+    border:0;
+    padding:0 16px;
+    border-radius:10px;
+    cursor:pointer
+  }
+  .filters{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+    flex-wrap:wrap
+  }
+  .chip{
+    background:var(--glass);
+    padding:8px 10px;
+    border-radius:999px;
+    color:var(--gray);
+    font-weight:600;
+    border:1px solid rgba(2,6,23,0.04);
+    cursor:pointer
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-top:18px
+  }
+  .card{
+    background:var(--card);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 8px 26px rgba(2,6,23,0.06);
+    display:flex;
+    flex-direction:column
+  }
+  .card img{
+    width:100%;
+    height:160px;
+    object-fit:cover
+  }
+  .card-body{
+    padding:14px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    flex:1
+  }
+  .card h3{
+    margin:0;
+    font-size:16px
+  }
+  .meta{
+    font-size:13px;
+    color:var(--gray);
+    display:flex;
+    justify-content:space-between;
+    align-items:center
+  }
+  .card .actions{
+    display:flex;
+    gap:8px;
+    margin-top:auto
+  }
+  .btn{
+    padding:10px 12px;
+    border-radius:10px;
+    border:0;
+    cursor:pointer;
+    font-weight:600
+  }
+  .btn.primary{
+    background:linear-gradient(90deg,var(--main),var(--main-2));
+    color:white}
+  .btn.ghost{
+    background:transparent;
+    border:1px solid rgba(2,6,23,0.06)
+  }
+  .cart-fab{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    background:var(--main);
+    color:white;
+    padding:12px 14px;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(3,105,161,0.18);
+    cursor:pointer;
+    display:flex;
+    gap:12px;
+    align-items:center
+  }
+  .cart-count{
+    background:white;
+    color:var(--main-2);
+    padding:6px 8px;
+    border-radius:999px;
+    font-weight:700
+  }
+
+  .panel{
+    position:fixed;
+    right:20px;
+    top:84px;
+    width:360px;
+    background:var(--card);
+    border-radius:12px;
+    box-shadow:0 18px 60px rgba(2,6,23,0.12);
+    overflow:hidden;
+    z-index:40;
+    display:flex;
+    flex-direction:column;
+    max-height:78vh
+  }
+  .panel .head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 14px;
+    border-bottom:1px solid #eef5fb
+  }
+  .panel .items{
+    overflow:auto;
+    padding:12px;
+    flex:1
+  }
+  .item{
+    display:flex;
+    gap:10px;
+    padding:8px;
+    border-radius:8px;
+    align-items:center
+  }
+  .item img{
+    width:64px;
+    height:48px;
+    object-fit:cover;
+    border-radius:8px
+  }
+  .qty{
+    display:inline-flex;
+    gap:6px;
+    align-items:center
+  }
+  .qty button{
+    padding:6px 8px;
+    border-radius:8px;
+    border:1px solid #eef5fb;
+    background:transparent;
+    cursor:pointer
+  }
+  .checkout{display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 14px;
+    border-top:1px solid #eef5fb
+  }
+
+  .admin{
+    background:linear-gradient(180deg,#fff 0%, #f6fbff 100%);
+    padding:18px;
+    border-radius:12px
+  }
+  .form-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:8px
+  }
+  input[type="text"],input[type="number"],input[type="date"],input[type="email"],textarea{
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #e9f2fb;
+    background:transparent;
+    width:100%;font-size:14px
+  }
+  textarea{
+    min-height:80px;
+    resize:vertical
+  }
+  .orders-list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:12px
+  }
+  .hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+  .hamburger span {
+  height: 3px;
+  width: 25px;
+  background: white;
+  margin: 4px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+  .order{padding:12px;
+    border-radius:10px;
+    background:linear-gradient(180deg,#fff,#fbfeff);
+    border:1px solid #eef7fa
+  }
+  footer{padding:26px;
+    text-align:center;
+    color:var(--gray);
+    font-size:13px;
+    margin-top:32px
+  }
+  @media (max-width:980px){
+    .grid{
+    grid-template-columns:repeat(2,1fr)
+  }
+  .hamburger{
+    display: flex;
+  }
+  .nav-buttons {
+    position: fixed;
+    top: 0;
+    right: -250px; 
+    height: 100vh;
+    width: 250px;
+    background: #1565c0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    border-radius: 10px 0 0 10px;
+    transition: right 0.4s ease;
+    z-index: 9;
+  }
+  .nav-buttons button.active {
+    right: 0; 
+  }
+  .nav-buttons button {
+    width: 70%;
+    font-size: 1.2rem;
+  }
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+  .hero{
+    grid-template-columns:1fr
+  } 
+  .panel{
+    right:12px;left:12px;width:auto
+  }}
+  @media (max-width:660px){
+    .grid{
+      grid-template-columns:1fr
+      } 
+    }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo">W</div>
+    <div>
+      <div style="font-weight:700">Wanderly</div>
+      <div style="font-size:12px;color:var(--gray)">Human travel experiences</div>
+    </div>
+  </div>
+  <nav>
+    <div class="nav-buttons">
+      <button id="nav-home" class="active">Home</button>
+      <button id="nav-tours">Tours</button>
+      <button id="nav-admin">Admin</button>
+      <button id="nav-cart">Cart <span id="nav-count" style="margin-left:8px;color:var(--gray);font-weight:700">0</span></button>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+  
+</header>
+
+<main class="container" id="app">
+  <section id="home-view">
+    <div class="hero">
+      <div class="hero-card"></div>
+        <h1>Find trips that feel like you</h1>
+        <p>Curated short trips, cultural experiences and small-group tours designed for humans — not crowds. Explore, fall in love, and remember why you travel.</p>
+        <div class="search">
+          <input id="search" placeholder="Search destinations, e.g., Bali, hiking, sunset" />
+          <button id="search-btn">Search</button>
+        </div>
+        <div class="filters" id="dest-filters">
+          <div class="chip" data-filter="">All</div>
+          <div class="chip" data-filter="Beach">Beach</div>
+          <div class="chip" data-filter="City">City</div>
+          <div class="chip" data-filter="Nature">Nature</div>
+          <div class="chip" data-filter="Adventure">Adventure</div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3 style="margin:0 0 6px">Cart quick view</h3>
+        <div id="mini-cart" style="display:flex;flex-direction:column;gap:10px">
+          <div style="color:var(--gray)">No items yet — add something to begin</div>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:8px">
+          <button class="btn ghost" id="view-tours">Browse tours</button>
+          <button class="btn primary" id="open-cart">Open cart</button>
+        </div>
+      </div>
+    </div>
+
+    <section>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2 style="margin:0">Popular journeys</h2>
+        <div style="color:var(--gray);font-size:13px">Handpicked for comfort & surprise</div>
+      </div>
+      <div class="grid" id="tours-grid"></div>
+    </section>
+  </section>
+
+  <section id="tours-view" style="display:none">
+    <h2>All Tours</h2>
+    <div class="grid" id="tours-grid-2"></div>
+  </section>
+
+  <section id="admin-view" style="display:none">
+    <div class="admin">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2 style="margin:0">Admin panel</h2>
+        <div id="admin-logged" style="color:var(--gray)">Not signed in</div>
+      </div>
+
+      <div id="admin-login" style="margin-top:12px">
+        <p style="margin:0 0 8px;color:var(--gray)">Enter admin password to manage tours and orders.</p>
+        <div style="display:flex;gap:8px">
+          <input type="password" id="admin-pass" placeholder="Admin password" />
+          <button class="btn primary" id="admin-login-btn">Sign in</button>
+        </div>
+      </div>
+
+      <div id="admin-dashboard" style="display:none;margin-top:12px">
+        <h3 style="margin-top:6px">Create new tour</h3>
+        <div class="form-row">
+          <input id="tour-title" type="text" placeholder="Title (e.g., Bali Sunset Escape)" />
+          <input id="tour-price" type="number" placeholder="Price (INR)" />
+        </div>
+        <div class="form-row">
+          <input id="tour-duration" type="text" placeholder="Duration (e.g., 3 days)" />
+          <input id="tour-type" type="text" placeholder="Type (Beach, City, Nature, Adventure)" />
+        </div>
+        <div class="form-row">
+          <input id="tour-img" type="text" placeholder="Image URL (optional)" />
+        </div>
+        <div class="form-row">
+          <textarea id="tour-desc" placeholder="Short description"></textarea>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <button class="btn primary" id="create-tour">Add tour</button>
+          <button class="btn ghost" id="admin-signout">Sign out</button>
+        </div>
+
+        <h3 style="margin-top:16px">Manage tours</h3>
+        <div id="admin-tours-list" style="display:flex;flex-direction:column;gap:8px"></div>
+
+        <h3 style="margin-top:16px">Orders</h3>
+        <div id="admin-orders" class="orders-list"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="cart-panel" class="panel" style="display:none">
+  <div class="head"><strong>Cart</strong><div id="clear-cart" style="font-size:13px;color:var(--gray);cursor:pointer">Clear</div></div>
+  <div class="items" id="cart-items"></div>
+  <div class="checkout">
+    <div>
+      <div style="font-size:13px;color:var(--gray)">Total</div>
+      <div id="cart-total" style="font-weight:800;font-size:18px">₹0</div>
+    </div>
+    <div>
+      <button class="btn primary" id="checkout-btn">Checkout</button>
+    </div>
+  </div>
+</div>
+
+<div id="checkout-modal" style="display:none;position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(2,6,23,0.4);align-items:center;justify-content:center;padding:22px;z-index:60">
+  <div style="background:var(--card);border-radius:12px;padding:18px;max-width:520px;width:100%;box-shadow:0 20px 80px rgba(2,6,23,0.16)">
+    <h3 style="margin:0 0 8px">Checkout</h3>
+    <div style="color:var(--gray);font-size:13px">We just need a few details to confirm your booking.</div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-direction:column">
+      <input id="buyer-name" type="text" placeholder="Full name" />
+      <input id="buyer-email" type="email" placeholder="Email" />
+      <input id="buyer-phone" type="text" placeholder="Phone (optional)" />
+      <input id="travel-date" type="date" />
+      <textarea id="buyer-notes" placeholder="Anything else we should know?"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+      <button class="btn ghost" id="cancel-check">Cancel</button>
+      <button class="btn primary" id="confirm-purchase">Confirm & Purchase</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Made with care • Wanderly — travel shop. All Rights Reserved.
+</footer>
+<script>
+  const hamburger = document.getElementById('hamburger');
+const navButtons = document.getElementById('nav-buttons');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  navButtons.classList.toggle('active');
+});
+</script>
+<script>
+
+const SELECTORS = {
+  toursGrid: document.getElementById('tours-grid'),
+  toursGrid2: document.getElementById('tours-grid-2'),
+  search: document.getElementById('search'),
+  searchBtn: document.getElementById('search-btn'),
+  destFilters: document.getElementById('dest-filters'),
+  miniCart: document.getElementById('mini-cart'),
+  viewToursBtn: document.getElementById('view-tours'),
+  openCartBtn: document.getElementById('open-cart'),
+  cartFab: null,
+  navCount: document.getElementById('nav-count'),
+  cartPanel: document.getElementById('cart-panel'),
+  cartItems: document.getElementById('cart-items'),
+  cartTotal: document.getElementById('cart-total'),
+  checkoutBtn: document.getElementById('checkout-btn'),
+  checkoutModal: document.getElementById('checkout-modal'),
+  confirmPurchase: document.getElementById('confirm-purchase'),
+  cancelCheck: document.getElementById('cancel-check'),
+  miniHeaderOpen: document.getElementById('open-cart'),
+  homeView: document.getElementById('home-view'),
+  toursView: document.getElementById('tours-view'),
+  adminView: document.getElementById('admin-view'),
+  navHome: document.getElementById('nav-home'),
+  navTours: document.getElementById('nav-tours'),
+  navAdmin: document.getElementById('nav-admin'),
+  navCart: document.getElementById('nav-cart'),
+  adminLogin: document.getElementById('admin-login'),
+  adminDashboard: document.getElementById('admin-dashboard'),
+  adminPassInput: document.getElementById('admin-pass'),
+  adminLoginBtn: document.getElementById('admin-login-btn'),
+  adminLogged: document.getElementById('admin-logged'),
+  createTourBtn: document.getElementById('create-tour'),
+  tourTitle: document.getElementById('tour-title'),
+  tourPrice: document.getElementById('tour-price'),
+  tourDuration: document.getElementById('tour-duration'),
+  tourType: document.getElementById('tour-type'),
+  tourImg: document.getElementById('tour-img'),
+  tourDesc: document.getElementById('tour-desc'),
+  adminToursList: document.getElementById('admin-tours-list'),
+  adminOrders: document.getElementById('admin-orders'),
+  adminSignout: document.getElementById('admin-signout'),
+  clearCart: document.getElementById('clear-cart')
+};
+
+let state = {
+  tours: [],
+  cart: [],
+  orders: [],
+  adminAuthenticated: false
+};
+
+const LS_KEYS = { tours: 'wl_tours', cart: 'wl_cart', orders: 'wl_orders', adminAuth: 'wl_admin' };
+
+function uid(prefix='id'){return prefix + '_' + Math.random().toString(36).slice(2,9)}
+
+function seedTours(){
+  const sample = [
+    {id:uid('t'),title:'Bali Sunset Escape',price:399,duration:'3 days',type:'Beach',desc:'A relaxed escape with local dinners and sunset yoga.',img:'https://picsum.photos/seed/bali/800/500'},
+    {id:uid('t'),title:'Lisbon City & Flavors',price:259,duration:'2 days',type:'City',desc:'Explore narrow lanes, tile facades and the best pastries.',img:'https://picsum.photos/seed/lisbon/800/500'},
+    {id:uid('t'),title:'Patagonia Trek Adventure',price:1299,duration:'7 days',type:'Adventure',desc:'Guided treks through iconic jagged peaks and glacial lakes.',img:'https://picsum.photos/seed/pata/800/500'},
+    {id:uid('t'),title:'Costa Rica Rainforest',price:749,duration:'5 days',type:'Nature',desc:'Wildlife spotting, waterfalls and canopy walks.',img:'https://picsum.photos/seed/cr/800/500'},
+    {id:uid('t'),title:'Kyoto Cultural Walk',price:499,duration:'4 days',type:'City',desc:'Temple visits, tea ceremony and local markets.',img:'https://picsum.photos/seed/kyoto/800/500'},
+    {id:uid('t'),title:'Amalfi Coast Drive',price:599,duration:'3 days',type:'Beach',desc:'Coastal drives, lemons, and cliffside lunches.',img:'https://picsum.photos/seed/amalfi/800/500'}
+  ];
+  if(!localStorage.getItem(LS_KEYS.tours)){
+    localStorage.setItem(LS_KEYS.tours, JSON.stringify(sample));
+  }
+}
+
+function loadState(){
+  state.tours = JSON.parse(localStorage.getItem(LS_KEYS.tours) || '[]');
+  state.cart = JSON.parse(localStorage.getItem(LS_KEYS.cart) || '[]');
+  state.orders = JSON.parse(localStorage.getItem(LS_KEYS.orders) || '[]');
+  state.adminAuthenticated = localStorage.getItem(LS_KEYS.adminAuth) === '1';
+}
+
+function saveTours(){ localStorage.setItem(LS_KEYS.tours, JSON.stringify(state.tours)) }
+function saveCart(){ localStorage.setItem(LS_KEYS.cart, JSON.stringify(state.cart)); updateCartUI() }
+function saveOrders(){ localStorage.setItem(LS_KEYS.orders, JSON.stringify(state.orders)) }
+function setAdminAuth(val){ localStorage.setItem(LS_KEYS.adminAuth, val ? '1' : '0'); state.adminAuthenticated = !!val; }
+
+function renderTours(gridEl, list){
+  gridEl.innerHTML = '';
+  list.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <img src="${t.img || 'https://picsum.photos/800/500?random'}" alt="${t.title}" />
+      <div class="card-body">
+        <h3>${t.title}</h3>
+        <div class="meta"><div>${t.duration} • ${t.type}</div><div style="font-weight:800">₹${t.price}</div></div>
+        <div style="color:var(--gray);font-size:13px">${t.desc}</div>
+        <div class="actions">
+          <button class="btn primary" data-add="${t.id}">Add to cart</button>
+          <button class="btn ghost" data-view="${t.id}">View</button>
+        </div>
+      </div>`;
+    gridEl.appendChild(div);
+  });
+}
+
+function filterTours(query='', type=''){
+  let res = state.tours.slice();
+  if(type) res = res.filter(t => t.type.toLowerCase() === type.toLowerCase());
+  if(query) {
+    const q = query.toLowerCase();
+    res = res.filter(t => (t.title+t.desc+t.type).toLowerCase().includes(q));
+  }
+  return res;
+}
+
+function addToCart(tourId){
+  const item = state.tours.find(t=>t.id===tourId);
+  if(!item) return;
+  const exists = state.cart.find(c=>c.id===tourId);
+  if(exists) exists.qty++;
+  else state.cart.push({id:item.id,title:item.title,price:item.price,img:item.img,qty:1});
+  saveCart();
+  toast(`Added "${item.title}" to cart`);
+}
+
+function updateCartUI(){
+  const mini = SELECTORS.miniCart;
+  mini.innerHTML = '';
+  if(state.cart.length===0){
+    mini.innerHTML = '<div style="color:var(--gray)">No items yet — add something to begin</div>';
+  } else {
+    state.cart.slice(0,3).forEach(it=>{
+      const row = document.createElement('div');
+      row.style.display='flex';row.style.justifyContent='space-between';row.style.alignItems='center';
+      row.innerHTML = `<div style="display:flex;gap:10px;align-items:center"><img src="${it.img}" style="width:64px;height:44px;object-fit:cover;border-radius:8px"/><div><div style="font-weight:700">${it.title}</div><div style="font-size:12px;color:var(--muted)">${it.qty} × ₹${it.price}</div></div></div>`;
+      mini.appendChild(row);
+    });
+    if(state.cart.length>3){
+      const more = document.createElement('div'); more.style.color='var(--gray)'; more.style.fontSize='13px'; more.style.marginTop='6px';
+      more.textContent = `+ ${state.cart.length-3} more item(s)`;
+      mini.appendChild(more);
+    }
+  }
+  const count = state.cart.reduce((s,i)=>s+i.qty,0);
+  SELECTORS.navCount.textContent = count;
+  SELECTORS.cartItems.innerHTML = '';
+  state.cart.forEach(it=>{
+    const row = document.createElement('div');
+    row.className='item';
+    row.innerHTML = `<img src="${it.img}" />
+      <div style="flex:1">
+        <div style="font-weight:700">${it.title}</div>
+        <div style="font-size:13px;color:var(--gray)">₹${it.price} • <span class="muted">Qty:</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+        <div class="qty">
+          <button data-decrease="${it.id}">-</button>
+          <div style="padding:6px 10px;border-radius:8px;background:#f2f8fb;font-weight:700">${it.qty}</div>
+          <button data-increase="${it.id}">+</button>
+        </div>
+        <div style="font-weight:800">₹${(it.price*it.qty).toFixed(2)}</div>
+        <div style="font-size:12px;color:var(--danger);cursor:pointer" data-remove="${it.id}">Remove</div>
+      </div>`;
+    SELECTORS.cartItems.appendChild(row);
+  });
+  const total = state.cart.reduce((s,i)=>s+i.price*i.qty,0);
+  SELECTORS.cartTotal.textContent = `₹${total.toFixed(2)}`;
+}
+
+function changeQty(id, delta){
+  const it = state.cart.find(c=>c.id===id);
+  if(!it) return;
+  it.qty = Math.max(1, it.qty + delta);
+  state.cart = state.cart.filter(c=>c.qty>0);
+  saveCart();
+}
+
+function removeFromCart(id){
+  state.cart = state.cart.filter(c=>c.id!==id);
+  saveCart();
+}
+
+function openCheckout(){
+  if(state.cart.length===0){ toast('Your cart is empty — add a trip first'); return; }
+  SELECTORS.checkoutModal.style.display = 'flex';
+}
+
+function closeCheckout(){
+  SELECTORS.checkoutModal.style.display = 'none';
+}
+
+function confirmPurchase(){
+  const name = document.getElementById('buyer-name').value.trim();
+  const email = document.getElementById('buyer-email').value.trim();
+  const date = document.getElementById('travel-date').value;
+  if(!name || !email || !date){ toast('Please complete name, email and travel date'); return; }
+  const order = {
+    id: uid('order'),
+    buyer: {name,email,phone: document.getElementById('buyer-phone').value||'',date,notes: document.getElementById('buyer-notes').value||''},
+    items: state.cart.map(c=>({id:c.id,title:c.title,price:c.price,qty:c.qty})),
+    total: state.cart.reduce((s,i)=>s+i.price*i.qty,0),
+    createdAt: new Date().toISOString(),
+    status: 'Pending'
+  };
+  state.orders.unshift(order);
+  saveOrders();
+  state.cart = []; saveCart();
+  closeCheckout();
+  ['buyer-name','buyer-email','buyer-phone','travel-date','buyer-notes'].forEach(id=>document.getElementById(id).value='');
+  toast('Purchase confirmed — thank you! Check admin orders to manage it.');
+  renderAdminOrders();
+  renderAllViews();
+}
+
+const ADMIN_PASS = 'admin123'; 
+function adminLogin(){
+  const attempt = SELECTORS.adminPassInput.value.trim();
+  if(attempt === ADMIN_PASS){
+    setAdminAuth(true);
+    SELECTORS.adminLogin.style.display='none';
+    SELECTORS.adminDashboard.style.display='block';
+    SELECTORS.adminLogged.textContent = 'Signed in as admin';
+    SELECTORS.adminPassInput.value = '';
+    renderAdminTours();
+    renderAdminOrders();
+    toast('Welcome, admin');
+  } else {
+    toast('Incorrect password"');
+  }
+}
+
+function adminSignout(){
+  setAdminAuth(false);
+  SELECTORS.adminLogin.style.display='block';
+  SELECTORS.adminDashboard.style.display='none';
+  SELECTORS.adminLogged.textContent = 'Not signed in';
+  toast('Signed out');
+}
+
+function createTour(){
+  const title = SELECTORS.tourTitle.value.trim();
+  const price = Number(SELECTORS.tourPrice.value) || 0;
+  const duration = SELECTORS.tourDuration.value.trim();
+  const type = SELECTORS.tourType.value.trim() || 'Nature';
+  const img = SELECTORS.tourImg.value.trim() || `https://picsum.photos/seed/${Math.random().toString(36).slice(2,6)}/800/500`;
+  const desc = SELECTORS.tourDesc.value.trim();
+  if(!title || !price || !duration){ toast('Please provide title, price and duration'); return; }
+  const t = {id:uid('t'),title,price,duration,type,desc,img};
+  state.tours.unshift(t);
+  saveTours();
+  SELECTORS.tourTitle.value=''; SELECTORS.tourPrice.value=''; SELECTORS.tourDuration.value=''; SELECTORS.tourType.value=''; SELECTORS.tourImg.value=''; SELECTORS.tourDesc.value='';
+  renderAdminTours(); renderAllViews();
+  toast('Tour added');
+}
+
+function renderAdminTours(){
+  SELECTORS.adminToursList.innerHTML = '';
+  state.tours.forEach(t=>{
+    const el = document.createElement('div');
+    el.style.display='flex'; el.style.justifyContent='space-between'; el.style.alignItems='center';
+    el.style.padding='10px'; el.style.border='1px solid #eef7fa'; el.style.borderRadius='10px';
+    el.innerHTML = `<div style="display:flex;gap:12px;align-items:center">
+        <img src="${t.img}" style="width:80px;height:56px;object-fit:cover;border-radius:8px"/>
+        <div><strong>${t.title}</strong><div style="font-size:13px;color:var(--gray)">${t.duration} • ${t.type}</div></div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div style="font-weight:800">₹${t.price}</div>
+        <button class="btn ghost" data-edit="${t.id}">Edit</button>
+        <button class="btn" style="background:var(--danger);color:white" data-delete="${t.id}">Delete</button>
+      </div>`;
+    SELECTORS.adminToursList.appendChild(el);
+  });
+}
+
+function renderAdminOrders(){
+  SELECTORS.adminOrders.innerHTML = '';
+  if(state.orders.length===0){ SELECTORS.adminOrders.innerHTML = '<div style="color:var(--gray)">No orders yet</div>'; return; }
+  state.orders.forEach(o=>{
+    const el = document.createElement('div'); el.className='order';
+    el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-weight:800">${o.buyer.name}</div>
+      <div style="font-size:13px;color:var(--gray)">${new Date(o.createdAt).toLocaleString()}</div>
+    </div>
+    <div style="color:var(--gray);font-size:13px">${o.items.map(i=>`${i.qty}× ${i.title}`).join(' • ')}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+      <div style="font-weight:800">₹${o.total.toFixed(2)}</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <select data-order="${o.id}">
+          <option ${o.status==='Pending'? 'selected':''}>Pending</option>
+          <option ${o.status==='Confirmed'? 'selected':''}>Confirmed</option>
+          <option ${o.status==='Completed'? 'selected':''}>Completed</option>
+          <option ${o.status==='Cancelled'? 'selected':''}>Cancelled</option>
+        </select>
+        <button class="btn ghost" data-vieworder="${o.id}">View</button>
+      </div>
+    </div>`;
+    SELECTORS.adminOrders.appendChild(el);
+  });
+}
+
+function toast(msg){
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.position='fixed'; t.style.left='50%'; t.style.transform='translateX(-50%)';
+  t.style.bottom='34px'; t.style.background='black'; t.style.color='white'; t.style.padding='10px 16px';
+  t.style.borderRadius='10px'; t.style.zIndex=9999; t.style.opacity=0; t.style.transition='opacity .24s';
+  document.body.appendChild(t);
+  requestAnimationFrame(()=>t.style.opacity=1);
+  setTimeout(()=>{ t.style.opacity=0; setTimeout(()=>t.remove(),250) },2200);
+}
+
+document.addEventListener('click', (e)=>{
+  const addId = e.target.getAttribute('data-add');
+  const viewId = e.target.getAttribute('data-view');
+  const decrease = e.target.getAttribute('data-decrease');
+  const increase = e.target.getAttribute('data-increase');
+  const remove = e.target.getAttribute('data-remove');
+  const edit = e.target.getAttribute('data-edit');
+  const del = e.target.getAttribute('data-delete');
+  const orderSelect = e.target.getAttribute('data-order');
+  const viewOrder = e.target.getAttribute('data-vieworder');
+  if(addId) addToCart(addId);
+  if(viewId) { const t = state.tours.find(x=>x.id===viewId); alert(`${t.title}\n\n${t.desc}\n\n${t.duration} • ₹${t.price}`); }
+  if(decrease) changeQty(decrease, -1);
+  if(increase) changeQty(increase, +1);
+  if(remove) removeFromCart(remove);
+  if(edit){ const t = state.tours.find(x=>x.id===edit); if(t){ SELECTORS.tourTitle.value=t.title; SELECTORS.tourPrice.value=t.price; SELECTORS.tourDuration.value=t.duration; SELECTORS.tourType.value=t.type; SELECTORS.tourImg.value=t.img; SELECTORS.tourDesc.value=t.desc; removeTour(edit); toast('Loaded tour into editor — click Add tour to re-create (old copy removed)'); } }
+  if(del) { if(confirm('Delete this tour?')){ removeTour(del); } }
+  if(viewOrder){ const o = state.orders.find(x=>x.id===viewOrder); if(o) { alert(`Order ${o.id}\nBuyer: ${o.buyer.name}\nEmail: ${o.buyer.email}\nDate: ${o.buyer.date}\nTotal: ₹${o.total}\nStatus: ${o.status}\nItems:\n${o.items.map(i=>`${i.qty}× ${i.title}`).join('\n')}`); } }
+});
+
+document.addEventListener('change', (e)=>{
+  const sel = e.target;
+  if(sel && sel.getAttribute('data-order')){
+    const oid = sel.getAttribute('data-order');
+    const order = state.orders.find(o=>o.id===oid);
+    if(order){ order.status = sel.value; saveOrders(); renderAdminOrders(); toast('Order status updated') }
+  }
+});
+
+function removeTour(id){
+  state.tours = state.tours.filter(t=>t.id!==id);
+  saveTours();
+  renderAdminTours(); renderAllViews();
+}
+
+SELECTORS.navHome.addEventListener('click', ()=>{ showView('home'); });
+SELECTORS.navTours.addEventListener('click', ()=>{ showView('tours'); });
+SELECTORS.navAdmin.addEventListener('click', ()=>{ showView('admin'); if(state.adminAuthenticated){ SELECTORS.adminLogin.style.display='none'; SELECTORS.adminDashboard.style.display='block'; } else { SELECTORS.adminLogin.style.display='block'; SELECTORS.adminDashboard.style.display='none'; } });
+SELECTORS.navCart.addEventListener('click', ()=>{ toggleCart(); });
+
+SELECTORS.searchBtn.addEventListener('click', ()=>{ const q = SELECTORS.search.value.trim(); const res = filterTours(q,''); renderTours(SELECTORS.toursGrid, res); renderTours(SELECTORS.toursGrid2, res); showView('home'); });
+
+SELECTORS.destFilters.addEventListener('click', (e)=>{ if(e.target.classList.contains('chip')){ const f = e.target.getAttribute('data-filter'); 
+  [...SELECTORS.destFilters.children].forEach(c=>c.classList.remove('active')); e.target.classList.add('active');
+  const q = SELECTORS.search.value.trim();
+  const res = filterTours(q,f);
+  renderTours(SELECTORS.toursGrid, res);
+  renderTours(SELECTORS.toursGrid2, res);
+}});
+
+SELECTORS.viewToursBtn.addEventListener('click', ()=>{ showView('tours'); });
+SELECTORS.openCartBtn.addEventListener('click', ()=>{ toggleCart(true); });
+
+SELECTORS.clearCart.addEventListener('click', ()=>{ if(confirm('Clear your cart?')){ state.cart = []; saveCart(); } });
+
+SELECTORS.checkoutBtn.addEventListener('click', openCheckout);
+SELECTORS.cancelCheck.addEventListener('click', closeCheckout);
+SELECTORS.confirmPurchase.addEventListener('click', confirmPurchase);
+
+SELECTORS.adminLoginBtn.addEventListener('click', adminLogin);
+SELECTORS.createTourBtn.addEventListener('click', createTour);
+SELECTORS.adminSignout.addEventListener('click', adminSignout);
+
+function toggleCart(forceOpen){
+  const panel = SELECTORS.cartPanel;
+  if(forceOpen === true){ panel.style.display='flex'; return; }
+  panel.style.display = panel.style.display === 'none' || panel.style.display==='' ? 'flex' : 'none';
+}
+
+function renderAllViews(){
+  renderTours(SELECTORS.toursGrid, filterTours('', ''));
+  renderTours(SELECTORS.toursGrid2, filterTours('', ''));
+  updateCartUI();
+  renderAdminOrders();
+  SELECTORS.adminLogged.textContent = state.adminAuthenticated ? 'Signed in as admin' : 'Not signed in';
+}
+
+(
+  function init(){
+  seedTours();
+  loadState();
+  renderAllViews();
+  showView('home');
+})();
+
+function showView(name){
+  SELECTORS.homeView.style.display = name==='home' ? '' : 'none';
+  SELECTORS.toursView.style.display = name==='tours' ? '' : 'none';
+  SELECTORS.adminView.style.display = name==='admin' ? '' : 'none';
+  [SELECTORS.navHome, SELECTORS.navTours, SELECTORS.navAdmin].forEach(b=>b.classList.remove('active'));
+  if(name==='home') SELECTORS.navHome.classList.add('active');
+  if(name==='tours') SELECTORS.navTours.classList.add('active');
+  if(name==='admin') SELECTORS.navAdmin.classList.add('active');
+  if(name==='admin'){
+    if(state.adminAuthenticated){ SELECTORS.adminLogin.style.display='none'; SELECTORS.adminDashboard.style.display='block'; } else { SELECTORS.adminLogin.style.display='block'; SELECTORS.adminDashboard.style.display='none'; }
+  }
+}
+</script>
+</body>
+</html>
